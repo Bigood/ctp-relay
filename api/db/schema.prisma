@@ -9,7 +9,9 @@ generator client {
 }
 
 model Instance {
-  host      String   @id
+  id        Int  @id @default(autoincrement())
+  host      String @unique  
+  token     String @unique   
   secret    String
   version   String?
 
@@ -23,8 +25,8 @@ model Message {
   id        Int      @id @default(autoincrement())
   payload   Json
 
-  from      Instance @relation("MessagesFromInstance", fields: [instanceId], references: [host])
-  instanceId String
+  from      Instance @relation("MessagesFromInstance", fields: [instanceId], references: [id])
+  instanceId Int
 
   deliveredTo Instance[] @relation("MessagesDeliveredToInstance")
   

@@ -1,9 +1,11 @@
 import Instance from 'src/components/Instance/Instance'
 
 export const QUERY = gql`
-  query FindInstanceById($id: String!) {
+  query FindInstanceById($id: Int!) {
     instance: instance(id: $id) {
+      id
       host
+      token
       secret
       version
       createdAt

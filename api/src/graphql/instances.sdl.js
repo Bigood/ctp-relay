@@ -1,5 +1,7 @@
 export const schema = gql`
   type Instance {
+    id: Int!
+    token: String!
     host: String!
     secret: String!
     version: String
@@ -11,16 +13,18 @@ export const schema = gql`
 
   type Query {
     instances: [Instance!]! @requireAuth
-    instance(id: String!): Instance @requireAuth
+    instance(id: Int!): Instance @requireAuth
   }
 
   input CreateInstanceInput {
+    token: String
     host: String!
-    secret: String!
+    secret: String
     version: String
   }
 
   input UpdateInstanceInput {
+    token: String
     host: String
     secret: String
     version: String
@@ -28,8 +32,8 @@ export const schema = gql`
 
   type Mutation {
     createInstance(input: CreateInstanceInput!): Instance! @requireAuth
-    updateInstance(id: String!, input: UpdateInstanceInput!): Instance!
+    updateInstance(id: Int!, input: UpdateInstanceInput!): Instance!
       @requireAuth
-    deleteInstance(id: String!): Instance! @requireAuth
+    deleteInstance(id: Int!): Instance! @requireAuth
   }
 `

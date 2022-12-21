@@ -21,6 +21,35 @@ const InstanceForm = (props) => {
           titleClassName="rw-form-error-title"
           listClassName="rw-form-error-list"
         />
+        <Label
+          name="host"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Host
+        </Label>
+
+        <TextField
+          name="host"
+          defaultValue={props.instance?.host}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
+
+        <Label
+          name="token"
+          className="rw-label"
+          errorClassName="rw-label rw-label-error"
+        >
+          Token
+        </Label>
+
+        <TextField
+          name="token"
+          defaultValue={props.instance?.token}
+          className="rw-input"
+          errorClassName="rw-input rw-input-error"
+        />
 
         <Label
           name="secret"
@@ -35,7 +64,6 @@ const InstanceForm = (props) => {
           defaultValue={props.instance?.secret}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
         />
 
         <FieldError name="secret" className="rw-field-error" />

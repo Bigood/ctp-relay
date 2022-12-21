@@ -6,9 +6,11 @@ import { toast } from '@redwoodjs/web/toast'
 import InstanceForm from 'src/components/Instance/InstanceForm'
 
 export const QUERY = gql`
-  query EditInstanceById($id: String!) {
+  query EditInstanceById($id: Int!) {
     instance: instance(id: $id) {
+      id
       host
+      token
       secret
       version
       createdAt
@@ -17,9 +19,11 @@ export const QUERY = gql`
   }
 `
 const UPDATE_INSTANCE_MUTATION = gql`
-  mutation UpdateInstanceMutation($id: String!, $input: UpdateInstanceInput!) {
+  mutation UpdateInstanceMutation($id: Int!, $input: UpdateInstanceInput!) {
     updateInstance(id: $id, input: $input) {
+      id
       host
+      token
       secret
       version
       createdAt

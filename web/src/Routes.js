@@ -22,8 +22,8 @@ const Routes = () => {
       </Set>
       <Set wrap={ScaffoldLayout} title="Instances" titleTo="instances" buttonLabel="New Instance" buttonTo="newInstance">
         <Route path="/instances/new" page={InstanceNewInstancePage} name="newInstance" />
-        <Route path="/instances/{id}/edit" page={InstanceEditInstancePage} name="editInstance" />
-        <Route path="/instances/{id}" page={InstanceInstancePage} name="instance" />
+        <Route path="/instances/{id:Int}/edit" page={InstanceEditInstancePage} name="editInstance" />
+        <Route path="/instances/{id:Int}" page={InstanceInstancePage} name="instance" />
         <Route path="/instances" page={InstanceInstancesPage} name="instances" />
       </Set>
       <Route notfound page={NotFoundPage} />

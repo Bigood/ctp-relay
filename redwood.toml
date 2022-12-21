@@ -6,11 +6,12 @@
 # https://redwoodjs.com/docs/app-configuration-redwood-toml
 
 [web]
-  title = "Redwood App"
-  port = 8910
+  title = "CTP Relay"
+  port = 8912
+  host = "relay.cartotalents.com"
   apiUrl = "/.redwood/functions" # you can customise graphql and dbauth urls individually too: see https://redwoodjs.com/docs/app-configuration-redwood-toml#api-paths
   includeEnvironmentVariables = [] # any ENV vars that should be available to the web side, see https://redwoodjs.com/docs/environment-variables#web
 [api]
-  port = 8911
+  port = 8913
 [browser]
-  open = true
+  open = false

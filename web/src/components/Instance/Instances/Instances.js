@@ -6,7 +6,7 @@ import { QUERY } from 'src/components/Instance/InstancesCell'
 import { timeTag, truncate } from 'src/lib/formatters'
 
 const DELETE_INSTANCE_MUTATION = gql`
-  mutation DeleteInstanceMutation($id: String!) {
+  mutation DeleteInstanceMutation($id: Int!) {
     deleteInstance(id: $id) {
       id
     }

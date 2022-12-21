@@ -1,4 +1,5 @@
 import { db } from 'src/lib/db'
+import {randomBytes} from 'crypto'
 
 export const instances = () => {
   return db.instance.findMany()
@@ -11,8 +12,15 @@ export const instance = ({ id }) => {
 }
 
 export const createInstance = ({ input }) => {
+  const token = randomBytes(16).toString('hex');
+  const secret = randomBytes(32).toString('hex');
+
   return db.instance.create({
-    data: input,
+    data: {
+      ...input,
+      secret,
+      token,
+    },
   })
 }
 

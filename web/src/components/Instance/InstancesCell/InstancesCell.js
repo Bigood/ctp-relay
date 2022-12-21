@@ -5,7 +5,9 @@ import Instances from 'src/components/Instance/Instances'
 export const QUERY = gql`
   query FindInstances {
     instances {
+      id
       host
+      token
       secret
       version
       createdAt

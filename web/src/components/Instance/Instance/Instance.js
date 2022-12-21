@@ -5,7 +5,7 @@ import { toast } from '@redwoodjs/web/toast'
 import { timeTag } from 'src/lib/formatters'
 
 const DELETE_INSTANCE_MUTATION = gql`
-  mutation DeleteInstanceMutation($id: String!) {
+  mutation DeleteInstanceMutation($id: Int!) {
     deleteInstance(id: $id) {
       id
     }
@@ -42,6 +42,10 @@ const Instance = ({ instance }) => {
             <tr>
               <th>Host</th>
               <td>{instance.host}</td>
+            </tr>
+            <tr>
+              <th>Token</th>
+              <td>{instance.token}</td>
             </tr>
             <tr>
               <th>Secret</th>
