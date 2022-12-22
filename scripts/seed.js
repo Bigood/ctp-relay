@@ -8,53 +8,28 @@ export default async () => {
     //
     // Update "const data = []" to match your data model and seeding needs
     //
-    const data = [
+    const instances = [
       // To try this example data with the UserExample model in schema.prisma,
       // uncomment the lines below and run 'yarn rw prisma migrate dev'
-      //
-      // { name: 'alice', email: 'alice@example.com' },
-      // { name: 'mark', email: 'mark@example.com' },
-      // { name: 'jackie', email: 'jackie@example.com' },
-      // { name: 'bob', email: 'bob@example.com' },
+      
+      { 
+        host: "mac-a.cartotalents.com",
+        token: "5ccebdfd7e0057678f1db2c7653dc7c8",
+        secret: "38967ecdc18b5dbf268de562866988c30290d097e0ecfd4d0f72655cc00d8f96",
+        version: "0.0.1",
+      },
+      {
+        host: "mac-b.cartotalents.com",
+        token: "4039bc0c9f7844efa452f510c7739755",
+        secret: "a4707df1b275c270cf4a68af530d0debf5e5da03846b6f5e2468a74a59130f5b",
+        version: "0.0.1",
+      },
     ]
     console.log(
       "\nUsing the default './scripts/seed.{js,ts}' template\nEdit the file to add seed data\n"
     )
+    await db.instance.createMany({ data: instances })
 
-    // Note: if using PostgreSQL, using `createMany` to insert multiple records is much faster
-    // @see: https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#createmany
-    Promise.all(
-      //
-      // Change to match your data model and seeding needs
-      //
-      data.map(async (data) => {
-        const record = await db.userExample.create({ data })
-        console.log(record)
-      })
-    )
-
-    // If using dbAuth and seeding users, you'll need to add a `hashedPassword`
-    // and associated `salt` to their record. Here's how to create them using
-    // the same algorithm that dbAuth uses internally:
-    //
-    //   import { hashPassword } from '@redwoodjs/api'
-    //
-    //   const users = [
-    //     { name: 'john', email: 'john@example.com', password: 'secret1' },
-    //     { name: 'jane', email: 'jane@example.com', password: 'secret2' }
-    //   ]
-    //
-    //   for (user of users) {
-    //     const [hashedPassword, salt] = hashPassword(user.password)
-    //     await db.user.create({
-    //       data: {
-    //         name: user.name,
-    //         email: user.email,
-    //         hashedPassword,
-    //         salt
-    //       }
-    //     })
-    //   }
   } catch (error) {
     console.warn('Please define your seed data.')
     console.error(error)

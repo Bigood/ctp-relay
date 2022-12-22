@@ -1,6 +1,7 @@
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
+import MessagesFromInstanceCell from 'src/components/Message/MessagesFromInstanceCell'
 
 import { timeTag } from 'src/lib/formatters'
 
@@ -81,6 +82,7 @@ const Instance = ({ instance }) => {
           Delete
         </button>
       </nav>
+      <MessagesFromInstanceCell id={instance.id} />
     </>
   )
 }

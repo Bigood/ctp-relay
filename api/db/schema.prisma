@@ -23,7 +23,9 @@ model Instance {
 
 model Message {
   id        Int      @id @default(autoincrement())
-  payload   Json
+  entity    String
+  payload   String
+  operation String
 
   from      Instance @relation("MessagesFromInstance", fields: [instanceId], references: [id])
   instanceId Int

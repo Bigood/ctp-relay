@@ -13,10 +13,31 @@ const DELETE_MESSAGE_MUTATION = gql`
   }
 `
 
+const SEND_MESSAGE_MUTATION = gql`
+  mutation sendMessageMutation($id: Int!) {
+    sendMessage(id: $id) {
+      id
+    }
+  }
+`
+
 const MessagesList = ({ messages }) => {
   const [deleteMessage] = useMutation(DELETE_MESSAGE_MUTATION, {
     onCompleted: () => {
       toast.success('Message deleted')
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+    // This refetches the query on the list page. Read more about other ways to
+    // update the cache over here:
+    // https://www.apollographql.com/docs/react/data/mutations/#making-all-other-cache-updates
+    refetchQueries: [{ query: QUERY }],
+    awaitRefetchQueries: true,
+  })
+  const [sendMessage] = useMutation(SEND_MESSAGE_MUTATION, {
+    onCompleted: () => {
+      toast.success('Message sent')
     },
     onError: (error) => {
       toast.error(error.message)
@@ -34,12 +55,20 @@ const MessagesList = ({ messages }) => {
     }
   }
 
+  const onSendClick = (id) => {
+    if (confirm('Are you sure you want to send the message to all undelivered instances ' + id + '?')) {
+      sendMessage({ variables: { id } })
+    }
+  }
+
   return (
     <div className="rw-segment rw-table-wrapper-responsive">
       <table className="rw-table">
         <thead>
           <tr>
             <th>Id</th>
+            <th>Entity</th>
+            <th>Operation</th>
             <th>Payload</th>
             <th>Instance id</th>
             <th>Created at</th>
@@ -51,7 +80,9 @@ const MessagesList = ({ messages }) => {
           {messages.map((message) => (
             <tr key={message.id}>
               <td>{truncate(message.id)}</td>
-              <td>{jsonTruncate(message.payload)}</td>
+              <td>{truncate(message.entity)}</td>
+              <td>{truncate(message.operation)}</td>
+              <td><pre>{JSON.stringify(JSON.parse(message.payload),null, 2)}</pre></td>
               <td>{truncate(message.instanceId)}</td>
               <td>{timeTag(message.createdAt)}</td>
               <td>{timeTag(message.updatedAt)}</td>
@@ -71,6 +102,14 @@ const MessagesList = ({ messages }) => {
                   >
                     Edit
                   </Link>
+                  <button
+                    type="button"
+                    title={'Send message ' + message.id}
+                    className="rw-button rw-button-small rw-button-blue"
+                    onClick={() => onSendClick(message.id)}
+                  >
+                    Send
+                  </button>
                   <button
                     type="button"
                     title={'Delete message ' + message.id}
