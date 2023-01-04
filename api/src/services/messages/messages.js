@@ -56,7 +56,7 @@ export const createMessageFromClient = async ({operation, payload, entity}, gqlA
 
   logger.debug({ custom: { payload } }, "Instance connectée")
 
-  const message = db.message.create({
+  const messageId = db.message.create({
     data: {
       from: {connect: {id: fromInstance.id}},
       entity: entity,
@@ -67,7 +67,7 @@ export const createMessageFromClient = async ({operation, payload, entity}, gqlA
 
   // Envoi dans la file de traitement
   const client = await faktory.connect()
-  await client.job('sendMessageToInstances', { operation, entity, payload }, fromInstance).push()
+  await client.job('sendMessageToInstances', { id: messageId, operation, entity, payload }, fromInstance).push()
   await client.close()
 
   return message;
@@ -99,6 +99,17 @@ export const sendMessage = async ({ id }) => {
     }
   })
   return sendMessageToInstances(message, message.from)
+}
+
+export const setMessageSentToInstance = async ({ id, instanceId }) => {
+  return db.message.update({
+    data: {
+      deliveredTo: {
+        connect: {id: instanceId}
+      }
+    },
+    where: { id },
+  })
 }
 
 export const Message = {

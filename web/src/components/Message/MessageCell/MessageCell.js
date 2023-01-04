@@ -5,7 +5,15 @@ export const QUERY = gql`
     message: message(id: $id) {
       id
       payload
-      instanceId
+      from {
+        id
+        host
+      }
+      entity
+      operation
+      deliveredTo {
+        host
+      }
       createdAt
       updatedAt
     }

@@ -12,11 +12,29 @@ const DELETE_MESSAGE_MUTATION = gql`
   }
 `
 
+const SEND_MESSAGE_MUTATION = gql`
+  mutation sendMessageMutation($id: Int!) {
+    sendMessage(id: $id) {
+      id
+    }
+  }
+`
+
+
+
 const Message = ({ message }) => {
   const [deleteMessage] = useMutation(DELETE_MESSAGE_MUTATION, {
     onCompleted: () => {
       toast.success('Message deleted')
       navigate(routes.messages())
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    },
+  })
+  const [sendMessage] = useMutation(SEND_MESSAGE_MUTATION, {
+    onCompleted: () => {
+      toast.success('Message sent')
     },
     onError: (error) => {
       toast.error(error.message)
@@ -28,7 +46,11 @@ const Message = ({ message }) => {
       deleteMessage({ variables: { id } })
     }
   }
-
+  const onSendClick = (id) => {
+    if (confirm('Are you sure you want to send the message to all undelivered instances ' + id + '?')) {
+      sendMessage({ variables: { id } })
+    }
+  }
   return (
     <>
       <div className="rw-segment">
@@ -44,19 +66,31 @@ const Message = ({ message }) => {
               <td>{message.id}</td>
             </tr>
             <tr>
-              <th>Payload</th>
-              <td>{jsonDisplay(message.payload)}</td>
+              <th>Entity</th>
+              <td>{message.entity}</td>
             </tr>
             <tr>
-              <th>Instance id</th>
-              <td>{message.instanceId}</td>
+              <th>Operation</th>
+              <td>{message.operation}</td>
+            </tr>
+            <tr>
+              <th>Payload</th>
+              <td><pre>{JSON.stringify(JSON.parse(message.payload), null, 2)}</pre></td>
+            </tr>
+            <tr>
+              <th>From instance</th>
+              <td>{message.from.host} ({message.from.id})</td>
+            </tr>
+            <tr>
+              <th>Delivered to</th>
+              <td>{message.deliveredTo.map(instance => `${instance.host} (${instance.id})`).join(",")}</td>
             </tr>
             <tr>
               <th>Created at</th>
               <td>{timeTag(message.createdAt)}</td>
             </tr>
             <tr>
-              <th>Updated at</th>
+              <th>Delivered at (updated)</th>
               <td>{timeTag(message.updatedAt)}</td>
             </tr>
           </tbody>
@@ -69,6 +103,14 @@ const Message = ({ message }) => {
         >
           Edit
         </Link>
+        <button
+          type="button"
+          title={'Send message ' + message.id}
+          className="rw-button rw-button-blue"
+          onClick={() => onSendClick(message.id)}
+        >
+          Send
+        </button>
         <button
           type="button"
           className="rw-button rw-button-red"

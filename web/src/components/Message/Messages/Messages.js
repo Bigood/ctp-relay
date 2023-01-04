@@ -72,7 +72,7 @@ const MessagesList = ({ messages }) => {
             <th>Payload</th>
             <th>Instance id</th>
             <th>Created at</th>
-            <th>Updated at</th>
+            <th>Delivered to</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -82,10 +82,10 @@ const MessagesList = ({ messages }) => {
               <td>{truncate(message.id)}</td>
               <td>{truncate(message.entity)}</td>
               <td>{truncate(message.operation)}</td>
-              <td><pre>{JSON.stringify(JSON.parse(message.payload),null, 2)}</pre></td>
-              <td>{truncate(message.instanceId)}</td>
+              <td><pre>{truncate(JSON.stringify(JSON.parse(message.payload),null, 2))}</pre></td>
+              <td>{message.from.host} ({message.from.id})</td>
+              <td>{message.deliveredTo.map(instance => `${instance.host} (${instance.id})`).join(",")}</td>
               <td>{timeTag(message.createdAt)}</td>
-              <td>{timeTag(message.updatedAt)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link
