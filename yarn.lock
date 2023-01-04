@@ -7476,6 +7476,7 @@ __metadata:
   dependencies:
     "@redwoodjs/api": 3.7.1
     "@redwoodjs/graphql-server": 3.7.1
+    faktory-worker: ^4.5.1
   languageName: unknown
   linkType: soft
 
@@ -9619,6 +9620,13 @@ __metadata:
   version: 8.3.0
   resolution: "commander@npm:8.3.0"
   checksum: 8b043bb8322ea1c39664a1598a95e0495bfe4ca2fad0d84a92d7d1d8d213e2a155b441d2470c8e08de7c4a28cf2bc6e169211c49e1b21d9f7edc6ae4d9356060
+  languageName: node
+  linkType: hard
+
+"commander@npm:^9.4.0":
+  version: 9.4.1
+  resolution: "commander@npm:9.4.1"
+  checksum: 04ea8ccc6fe3d3d1ca7ca26b06187498af8e6341a2c98b534528d504f8cad95b0c5ac2f3b78a7f0d332da16da9332db2ab9e43cb06241d367e9c7ee75cb76202
   languageName: node
   linkType: hard
 
@@ -12154,6 +12162,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"faktory-worker@npm:^4.5.1":
+  version: 4.5.1
+  resolution: "faktory-worker@npm:4.5.1"
+  dependencies:
+    commander: ^9.4.0
+    debug: ^4.1.0
+    generic-pool: 3.7.8
+    koa-compose: ^4.1.0
+    redis-parser: ^3.0.0
+    uuid: 8.3.2
+  bin:
+    faktory-cluster: bin/faktory-cluster
+    faktory-work: bin/faktory-work
+  checksum: b8ae8b473982905f560a79d5107bb6f70f6bcfb7e5fd4ee68a8d59e5060671c89cab16f087c5d5cddf19a1cd1b4f2356c568dec96c66c44b27e1652cfbc53971
+  languageName: node
+  linkType: hard
+
 "fast-decode-uri-component@npm:^1.0.1":
   version: 1.0.1
   resolution: "fast-decode-uri-component@npm:1.0.1"
@@ -12930,6 +12955,13 @@ __metadata:
     strip-ansi: ^6.0.1
     wide-align: ^1.1.5
   checksum: ef10d7981113d69225135f994c9f8c4369d945e64a8fc721d655a3a38421b738c9fe899951721d1b47b73c41fdb5404ac87cc8903b2ecbed95d2800363e7e58c
+  languageName: node
+  linkType: hard
+
+"generic-pool@npm:3.7.8":
+  version: 3.7.8
+  resolution: "generic-pool@npm:3.7.8"
+  checksum: 08f7f2e3b4a61ed8cfe16f9311a214b00085e3ceb13c96d9a84b63fd8e5984e85eb2c7d7bbf016b904af4602c6349e7b16397970fbc0141d71cd233a760ccffe
   languageName: node
   linkType: hard
 
@@ -15909,6 +15941,13 @@ __metadata:
   version: 2.0.5
   resolution: "klona@npm:2.0.5"
   checksum: 5b752c11ca8e2996612386699f52cc5aed802aa4116663d26239ac0b054fae25191dacb95587ecf1a167b039daa9fc3fa2da17dfd5d0821f3037de3821d9a9e5
+  languageName: node
+  linkType: hard
+
+"koa-compose@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "koa-compose@npm:4.1.0"
+  checksum: f1f786f994a691931148e7f38f443865bf2702af4a61610d1eea04dab79c04b1232285b59d82a0cf61c830516dd92f10ab0d009b024fcecd4098e7d296ab771a
   languageName: node
   linkType: hard
 
@@ -19843,6 +19882,22 @@ __metadata:
     indent-string: ^4.0.0
     strip-indent: ^3.0.0
   checksum: d64a6b5c0b50eb3ddce3ab770f866658a2b9998c678f797919ceb1b586bab9259b311407280bd80b804e2a7c7539b19238ae6a2a20c843f1a7fcff21d48c2eae
+  languageName: node
+  linkType: hard
+
+"redis-errors@npm:^1.0.0":
+  version: 1.2.0
+  resolution: "redis-errors@npm:1.2.0"
+  checksum: 5b316736e9f532d91a35bff631335137a4f974927bb2fb42bf8c2f18879173a211787db8ac4c3fde8f75ed6233eb0888e55d52510b5620e30d69d7d719c8b8a7
+  languageName: node
+  linkType: hard
+
+"redis-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "redis-parser@npm:3.0.0"
+  dependencies:
+    redis-errors: ^1.0.0
+  checksum: ee16ac4c7b2a60b1f42a2cdaee22b005bd4453eb2d0588b8a4939718997ae269da717434da5d570fe0b05030466eeb3f902a58cf2e8e1ca058bf6c9c596f632f
   languageName: node
   linkType: hard
 

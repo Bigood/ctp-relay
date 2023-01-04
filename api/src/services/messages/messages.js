@@ -1,5 +1,6 @@
 import { db } from 'src/lib/db'
 import { logger } from 'src/lib/logger'
+import faktory from 'faktory-worker'
 
 import { createDecipheriv, randomBytes } from 'crypto'
 import { sendMessageToInstances } from 'src/lib/relay'
@@ -7,7 +8,7 @@ import { sendMessageToInstances } from 'src/lib/relay'
 
 
 export const messages = () => {
-  return db.message.findMany()
+  return db.message.findMany({orderBy: { id: 'desc' }})
 }
 
 
@@ -36,16 +37,16 @@ export const createMessageFromClient = async ({operation, payload, entity}, gqlA
   if (!instanceTokenMatch){
     logger.error({ custom: gqlArgs.context.event}, "Instance not authorized")
     return null;
-  }  
+  }
   //Récupérer l'instance appelante
-  const instance = await db.instance.findUnique({ where: { token: instanceTokenMatch[1] }, select: { id: true, host: true }})
+  const fromInstance = await db.instance.findUnique({ where: { token: instanceTokenMatch[1] }, select: { id: true, host: true }})
 
-  if (!instance) {
+  if (!fromInstance) {
     logger.error({ custom: instanceTokenMatch }, "Instance not found")
     return null;
-  }  
-  
-  logger.debug({ custom: {instanceTokenMatch, instance} }, "Instance connectée")
+  }
+
+  logger.debug({ custom: {instanceTokenMatch, fromInstance} }, "Instance connectée")
 
   //https://fireship.io/lessons/node-crypto-examples/
   //Encryption also has an initialization vector (IV) to randomize the pattern so a sequence of text won’t produce the same output as a previous sequence.
@@ -57,15 +58,18 @@ export const createMessageFromClient = async ({operation, payload, entity}, gqlA
 
   const message = db.message.create({
     data: {
-      from: {connect: {id: instance.id}},
+      from: {connect: {id: fromInstance.id}},
       entity: entity,
       payload: payload,
       operation
     },
   })
 
-  const res = await sendMessageToInstances({operation, entity, payload}, instance);
-  
+  // Envoi dans la file de traitement
+  const client = await faktory.connect()
+  await client.job('sendMessageToInstances', { operation, entity, payload }, fromInstance).push()
+  await client.close()
+
   return message;
 }
 
