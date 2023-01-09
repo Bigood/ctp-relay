@@ -71,8 +71,8 @@ const MessagesList = ({ messages }) => {
             <th>Operation</th>
             <th>Payload</th>
             <th>Instance id</th>
-            <th>Created at</th>
             <th>Delivered to</th>
+            <th>Created at</th>
             <th>&nbsp;</th>
           </tr>
         </thead>

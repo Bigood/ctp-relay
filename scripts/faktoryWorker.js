@@ -20,6 +20,7 @@ export default async ({ _args }) => {
   const worker = await faktory
     .work({
       url: process.env.FAKTORY_URL,
+      queues: ["relay"]
     })
     .catch((error) => {
       logger.error(`worker failed to start: ${error}`)

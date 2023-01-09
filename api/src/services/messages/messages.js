@@ -56,18 +56,23 @@ export const createMessageFromClient = async ({operation, payload, entity}, gqlA
 
   logger.debug({ custom: { payload } }, "Instance connectée")
 
-  const messageId = db.message.create({
+  const message = await db.message.create({
     data: {
       from: {connect: {id: fromInstance.id}},
       entity: entity,
       payload: payload,
       operation
     },
+    select: {id: true}
   })
+
+  logger.debug({ custom: { message } }, "Message créé")
 
   // Envoi dans la file de traitement
   const client = await faktory.connect()
-  await client.job('sendMessageToInstances', { id: messageId, operation, entity, payload }, fromInstance).push()
+  const job = client.job('sendMessageToInstances', { id: message.id, operation, entity, payload }, fromInstance)
+  job.queue = "relay"
+  await job.push()
   await client.close()
 
   return message;

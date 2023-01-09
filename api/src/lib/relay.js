@@ -32,7 +32,11 @@ export const sendMessageToInstances = async (message, fromInstance) => {
   const client = await faktory.connect()
 
   //https://github.com/jbielick/faktory_worker_node#pushing-bulk-jobs
-  const tasks = requestsForInstances.map(request => client.job('sendRequestToInstance', request));
+  const tasks = requestsForInstances.map(request => {
+    const job = client.job('sendRequestToInstance', request)
+    job.queue = "relay"
+    return job
+  });
   console.log(tasks);
   let rejected = await client.pushBulk(tasks);
 
